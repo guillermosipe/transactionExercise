@@ -6,15 +6,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import guillermosipe.backend.Objects.Transaction;
+import guillermosipe.backend.Utils.Constants;
 
 public class ImplDatabase implements Database{
-	private static final String CSV = "database.csv";
+	
 	File file;
 		
 	@Override
 	public boolean createConnection() {
 		boolean flag = false;
-		file = new File(CSV);
+		file = new File(Constants.DATABASE);
 		flag = true;
 		return flag;
 	}

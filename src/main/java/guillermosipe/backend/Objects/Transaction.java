@@ -3,6 +3,8 @@ package guillermosipe.backend.Objects;
 import java.math.BigDecimal;
 import java.sql.Date;
 
+import guillermosipe.backend.Utils.Constants;
+
 public class Transaction {
 	String transaction_id;
 	BigDecimal amount;
@@ -57,7 +59,7 @@ public class Transaction {
 
 	@Override
 	public String toString() {
-		return transaction_id + "," + amount + "," + description + "," + date + "," + user_id + "\n";
+		return transaction_id + Constants.CSV_SEPARATOR + amount + Constants.CSV_SEPARATOR + description + Constants.CSV_SEPARATOR + date + Constants.CSV_SEPARATOR + user_id + Constants.CSV_END_LINE;
 	}
 	
 	
