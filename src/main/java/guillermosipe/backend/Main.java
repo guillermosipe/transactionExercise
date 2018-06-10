@@ -3,6 +3,7 @@ package guillermosipe.backend;
 import java.util.ArrayList;
 
 import guillermosipe.backend.Database.ImplDatabase;
+import guillermosipe.backend.Objects.Request;
 import guillermosipe.backend.Objects.SumTransaction;
 import guillermosipe.backend.Objects.Transaction;
 import guillermosipe.backend.Utils.Constants;
@@ -11,18 +12,22 @@ import guillermosipe.backend.Utils.TransactionUtils;
 public class Main 
 {
     public static void main( String[] args ) {
-    	Integer userId = 102;
-    	String action = "";
-    	String transaction_id = "b9fa8c76-0577-864c-f7c1-7261ffd1283f";
-    	String content = "{ \"amount\": 10.23, \"description\": \"Joes Tacos\", \"date\":\"2018-12-30\", \"user_id\": 345 }";
+
+    	Request request = new Request(args);    	
     	ImplDatabase database = new ImplDatabase();
     	
-    	switch(action) {
+    	if(request.getAction().compareTo("") == 0 && request.getTransaction_id().compareTo("") == 0)
+    	{
+    		System.out.println(Constants.ERROR_DATABASE_CONNECTION);
+    		return;
+    	}
+    	
+    	switch(request.getAction()) {
 	    	case "add":
 	    		if(database.createConnection()) {
-		    		Transaction transaction = TransactionUtils.convertJsonToTransaction(content);
+		    		Transaction transaction = TransactionUtils.convertJsonToTransaction(request.getContent());
 		    		transaction.setTransaction_id(TransactionUtils.generateTransactionId());
-		    		transaction.setUser_id_Destiny(userId);
+		    		transaction.setUser_id_Destiny(request.getUserId());
 		    		if(database.save(transaction))
 		    		{
 		    			database.closeConnection();
@@ -40,7 +45,7 @@ public class Main
 	    		break;
 	    	case "list":
 	    		if(database.createConnection()) {
-	    			ArrayList<Transaction> transactions = database.list(userId);
+	    			ArrayList<Transaction> transactions = database.list(request.getUserId());
 	    			System.out.println(TransactionUtils.convertToJson(transactions));
 	    		}
 	    		else {
@@ -49,7 +54,7 @@ public class Main
 	    		break;
 	    	case "sum":
 	    		if(database.createConnection()) {
-	    			SumTransaction sumTransaction = database.sum(userId);
+	    			SumTransaction sumTransaction = database.sum(request.getUserId());
 	    			System.out.println(TransactionUtils.convertToJson(sumTransaction));
 	    		}
 	    		else {
@@ -58,7 +63,7 @@ public class Main
 	    		break;
 	    	default:
 	    		if(database.createConnection()) {
-	    			Transaction transaction = database.getTransaccion(userId,transaction_id);
+	    			Transaction transaction = database.getTransaccion(request.getUserId(),request.getTransaction_id());
 	    			if(transaction != null)
 	    			{
 	    				System.out.println(TransactionUtils.convertToJson(transaction));
@@ -73,7 +78,6 @@ public class Main
 	    		}
 	    		break;
     	}
-    		
-    		
+    	return;			
     }
 }
