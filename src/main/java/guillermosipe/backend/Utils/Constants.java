@@ -13,6 +13,7 @@ public class Constants {
 	public static final Integer USER_ID_IDX = 5;
 	
 	
-	public static final String ERROR_DATABASE_CONNECTION="ERROR: Database not available";
-	public static final String ERROR_DATABASE_SAVE="ERROR: Transaction doesnt save";
+	public static final String ERROR_DATABASE_CONNECTION="Database not available";
+	public static final String ERROR_DATABASE_SAVE="Transaction doesnt save";
+	public static final String ERROR_TRANSACTION_NOT_FOUND="Transaction not found";
 }

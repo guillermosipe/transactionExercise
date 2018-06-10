@@ -11,7 +11,8 @@ public class Main
 {
     public static void main( String[] args ) {
     	Integer userId = 10;
-    	String action = "list";
+    	String action = "";
+    	String transaction_id = "765bd37-62fd-2c3d-7089-52b3a57a7bc8";
     	String content = "{ \"amount\": 1.23, \"description\": \"Joes Tacos\", \"date\":\"2018-12-30\", \"user_id\": 345 }";
     	ImplDatabase database = new ImplDatabase();
     	
@@ -48,6 +49,20 @@ public class Main
 	    	case "sum":
 	    		break;
 	    	default:
+	    		if(database.createConnection()) {
+	    			Transaction transaction = database.getTransaccion(userId,transaction_id);
+	    			if(transaction != null)
+	    			{
+	    				System.out.println(TransactionUtils.convertTransactionToJson(transaction));
+	    			}
+	    			else
+	    			{
+	    				System.out.println(Constants.ERROR_TRANSACTION_NOT_FOUND);
+	    			}
+	    		}
+	    		else {
+	    			System.out.println(Constants.ERROR_DATABASE_CONNECTION);
+	    		}
 	    		break;
     	}
     		

@@ -10,8 +10,8 @@ public interface Database {
 	public boolean closeConnection();
 	public boolean save(Transaction transaction);
 	public ArrayList<Transaction> list(Integer userId);
-	/*public boolean show(String transactionId);
-	public list(Integer userId);
+	public Transaction getTransaccion(Integer userId,String transactionId);
+	/*
 	public sum(Integer userId);*/
 	
 }

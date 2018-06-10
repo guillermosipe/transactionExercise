@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 import guillermosipe.backend.Objects.Transaction;
 import guillermosipe.backend.Utils.Constants;
-import guillermosipe.backend.Utils.ConvertUtils;
 import guillermosipe.backend.Utils.TransactionUtils;
 
 public class ImplDatabase implements Database{
@@ -74,6 +73,34 @@ public class ImplDatabase implements Database{
 		}
 	    
 		return transactions;
+	}
+
+	@Override
+	public Transaction getTransaccion(Integer userId,String transactionId) {
+		String line = "";
+		
+		try {
+			FileReader r = new FileReader(file);
+			BufferedReader b = new BufferedReader(r);
+		    
+		    while( (line=b.readLine()) != null) {
+		        Transaction transaction = TransactionUtils.convertCsvToTransaction(line);
+		        if(transaction.getUser_id_Destiny()==userId && transaction.getTransaction_id().compareTo(transactionId)==0)
+		        {
+		        	transaction.setUser_id_Destiny(null);
+		        	return transaction;
+		        }
+		    }
+		    b.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+		return null;
 	}
 	
 }
