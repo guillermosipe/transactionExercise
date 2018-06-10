@@ -1,14 +1,10 @@
 package guillermosipe.backend.Utils;
 
-import java.math.BigDecimal;
 import java.security.SecureRandom;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.google.gson.Gson;
-
 import guillermosipe.backend.Objects.Transaction;
 
 public class TransactionUtils {
@@ -43,5 +39,10 @@ public class TransactionUtils {
 	public static Transaction convertCsvToTransaction(String csvLine) {
 		String [] data = csvLine.split(Constants.CSV_SEPARATOR);
 		return new Transaction(Integer.parseInt(data[Constants.USER_ID_DESTINY_IDX]),data[Constants.TRANSACTION_ID_IDX], ConvertUtils.convertStringToBigDecimal(data[Constants.AMOUNT_IDX]), data[Constants.DESCRIPTION_IDX], data[Constants.DATE_IDX], Integer.parseInt(data[Constants.USER_ID_IDX]));
+	}
+	
+	public static ArrayList<Transaction> orderTransaction(ArrayList<Transaction> transactions){
+		Collections.sort(transactions, Transaction.CompareDate);
+		return transactions;
 	}
 }

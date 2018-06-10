@@ -1,9 +1,10 @@
 package guillermosipe.backend.Objects;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Comparator;
 
 import guillermosipe.backend.Utils.Constants;
+import guillermosipe.backend.Utils.DateUtils;
 
 public class Transaction {
 	Integer user_id_Destiny;
@@ -65,7 +66,20 @@ public class Transaction {
 		return user_id_Destiny + Constants.CSV_SEPARATOR + transaction_id + Constants.CSV_SEPARATOR + amount + Constants.CSV_SEPARATOR + description + Constants.CSV_SEPARATOR + date + Constants.CSV_SEPARATOR + user_id + Constants.CSV_END_LINE;
 	}
 	
+    public static Comparator<Transaction> CompareDate = new Comparator<Transaction>() {
+
+		public int compare(Transaction transaction1, Transaction transaction2) {
 	
-	
+		   long date1 = DateUtils.getMiliseconds(transaction1.getDate());
+		   long date2 = DateUtils.getMiliseconds(transaction2.getDate());
+		   if(date1 < date2) {
+			   return 1;
+		   }
+		   else if(date1 > date2) {
+			   return -1;
+		   }
+		   return 0;
+		}
+	};
 	
 }

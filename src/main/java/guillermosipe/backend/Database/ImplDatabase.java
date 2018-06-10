@@ -71,7 +71,7 @@ public class ImplDatabase implements Database{
 			e.printStackTrace();
 		}
 	    
-		return transactions;
+		return TransactionUtils.orderTransaction(transactions);
 	}
 
 	@Override

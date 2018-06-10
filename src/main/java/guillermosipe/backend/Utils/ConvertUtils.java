@@ -18,7 +18,6 @@ public class ConvertUtils {
 		try {
 			bigDecimal = (BigDecimal) decimalFormat.parse(bigDecimalString);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return bigDecimal;

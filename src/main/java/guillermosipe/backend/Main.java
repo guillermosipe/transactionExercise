@@ -22,62 +22,44 @@ public class Main
     		return;
     	}
     	
-    	switch(request.getAction()) {
-	    	case "add":
-	    		if(database.createConnection()) {
+    	if(database.createConnection()) {
+	    	switch(request.getAction()) {
+		    	case "add":
 		    		Transaction transaction = TransactionUtils.convertJsonToTransaction(request.getContent());
 		    		transaction.setTransaction_id(TransactionUtils.generateTransactionId());
 		    		transaction.setUser_id_Destiny(request.getUserId());
-		    		if(database.save(transaction))
-		    		{
+		    		if(database.save(transaction)) {
 		    			database.closeConnection();
 		    			transaction.setUser_id_Destiny(null);
 		    			System.out.println(TransactionUtils.convertToJson(transaction));
 		    		}
-		    		else
-		    		{
-		    			System.out.println(Constants.ERROR_DATABASE_CONNECTION);
+		    		else {
+		    			System.out.println(Constants.ERROR_DATABASE_SAVE);
 		    		}
-	    		}
-	    		else {
-	    			System.out.println(Constants.ERROR_DATABASE_SAVE);
-	    		}		
-	    		break;
-	    	case "list":
-	    		if(database.createConnection()) {
+		    		break;
+		    	case "list":
 	    			ArrayList<Transaction> transactions = database.list(request.getUserId());
 	    			System.out.println(TransactionUtils.convertToJson(transactions));
-	    		}
-	    		else {
-	    			System.out.println(Constants.ERROR_DATABASE_CONNECTION);
-	    		}
-	    		break;
-	    	case "sum":
-	    		if(database.createConnection()) {
+		    		break;
+		    	case "sum":
 	    			SumTransaction sumTransaction = database.sum(request.getUserId());
 	    			System.out.println(TransactionUtils.convertToJson(sumTransaction));
-	    		}
-	    		else {
-	    			System.out.println(Constants.ERROR_DATABASE_CONNECTION);
-	    		}
-	    		break;
-	    	default:
-	    		if(database.createConnection()) {
-	    			Transaction transaction = database.getTransaccion(request.getUserId(),request.getTransaction_id());
-	    			if(transaction != null)
-	    			{
-	    				System.out.println(TransactionUtils.convertToJson(transaction));
-	    			}
-	    			else
-	    			{
+		    		break;
+		    	default:
+	    			Transaction transactionGet = database.getTransaccion(request.getUserId(),request.getTransaction_id());
+	    			if(transactionGet != null)	{
+	    				System.out.println(TransactionUtils.convertToJson(transactionGet));
+	    			} 
+	    			else {
 	    				System.out.println(Constants.ERROR_TRANSACTION_NOT_FOUND);
 	    			}
-	    		}
-	    		else {
-	    			System.out.println(Constants.ERROR_DATABASE_CONNECTION);
-	    		}
-	    		break;
+		    		break;
+	    	}
+	    	database.closeConnection();
     	}
+    	else {
+			System.out.println(Constants.ERROR_DATABASE_CONNECTION);
+		}
     	return;			
     }
 }
