@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import guillermosipe.backend.Objects.SumTransaction;
 import guillermosipe.backend.Objects.Transaction;
 import guillermosipe.backend.Utils.Constants;
 import guillermosipe.backend.Utils.TransactionUtils;
@@ -101,6 +102,34 @@ public class ImplDatabase implements Database{
 		}
 	    
 		return null;
+	}
+
+	@Override
+	public SumTransaction sum(Integer userId) {
+		String line = "";
+		SumTransaction sumTransaction = new SumTransaction(userId);
+		
+		try {
+			FileReader r = new FileReader(file);
+			BufferedReader b = new BufferedReader(r);
+		    
+		    while( (line=b.readLine()) != null) {
+		        Transaction transaction = TransactionUtils.convertCsvToTransaction(line);
+		        if(transaction.getUser_id_Destiny()==userId)
+		        {
+		        	sumTransaction.addAmount(transaction.getAmount());
+		        }
+		    }
+		    b.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+		return sumTransaction;
 	}
 	
 }

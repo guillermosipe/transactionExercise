@@ -2,6 +2,7 @@ package guillermosipe.backend.Database;
 
 import java.util.ArrayList;
 
+import guillermosipe.backend.Objects.SumTransaction;
 import guillermosipe.backend.Objects.Transaction;
 
 public interface Database {
@@ -11,7 +12,6 @@ public interface Database {
 	public boolean save(Transaction transaction);
 	public ArrayList<Transaction> list(Integer userId);
 	public Transaction getTransaccion(Integer userId,String transactionId);
-	/*
-	public sum(Integer userId);*/
+	public SumTransaction sum(Integer userId);
 	
 }

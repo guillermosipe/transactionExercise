@@ -34,15 +34,9 @@ public class TransactionUtils {
 		return transaction;
 	}
 	
-	public static String convertTransactionToJson(Transaction transaction) {
+	public static String convertToJson(Object transaction) {
 		Gson gson = new Gson();
 		String json = gson.toJson(transaction);
-		return json;
-	}
-	
-	public static String convertTransactionsToJson(ArrayList<Transaction> transactions) {
-		Gson gson = new Gson();
-		String json = gson.toJson(transactions);
 		return json;
 	}
 	
